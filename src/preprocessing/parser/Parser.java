@@ -39,6 +39,8 @@ public class Parser {
         Integer[] frec = new Integer[map.size()];
         map.keySet().toArray(key);
         map.values().toArray(frec);
+        
+        ///edit disini?
         for (int i = 0; i < terms.length; i++) {
             terms[i] = new Term(key[i], frec[i], this.document.docId);
         }

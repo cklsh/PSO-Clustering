@@ -42,7 +42,7 @@ public class Tester {
             trie.putTerms(terms);
         }
         
-        ArrayList bagOfTerm = getBagOfTerm(parseDoc, trie);
+        ArrayList bagOfTerm = getBagOfTerm(trie);
 
 //??
 //        trie.putTerms(parseDoc[0].getTerm());
@@ -55,8 +55,8 @@ public class Tester {
         return solutions;
     }
     
-    private ArrayList getBagOfTerm(ParseDocument[] parseDoc, Trie trie){
-        DFS dfs = new DFS(parseDoc.length);
+    private ArrayList getBagOfTerm(Trie trie){
+        DFS dfs = new DFS();
         ArrayList bagOfTerm = dfs.DFSProcess(trie.getRoot().children);
         return bagOfTerm;
 

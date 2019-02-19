@@ -23,10 +23,27 @@ public class DFS {
     int jumlahDoc;
     HashMap<String, Double> idx;
     ArrayList<String> bagOfTerm;
+    public DFS(){
+        this.bagOfTerm = new ArrayList<String>();
+
+    }
     public DFS(int jumlahDoc){
         this.jumlahDoc = jumlahDoc;
         this.idx = new HashMap<String, Double>();
-        this.bagOfTerm = new ArrayList<String>();
+    }
+    
+    public ArrayList<String> DFSProcess(TrieNode[] trieNode){
+        for (int i = 0; i < 26; i++) {
+            if(trieNode[i] !=null) {
+                if(trieNode[i].value != null){
+                      ArrayList newArr = (ArrayList) trieNode[i].value;
+                      Term term  = (Term) newArr.get(0);
+                      this.bagOfTerm.add(term.key);
+                }
+                DFSProcess(trieNode[i].children);
+            }
+        }
+        return this.bagOfTerm;
     }
     
     public HashMap findIDF(TrieNode[] trieNode){
@@ -43,19 +60,5 @@ public class DFS {
             }
         }
         return idx;
-    }
-    
-    public ArrayList<String> DFSProcess(TrieNode[] trieNode){
-        for (int i = 0; i < 26; i++) {
-            if(trieNode[i] !=null) {
-                if(trieNode[i].value != null){
-                      ArrayList newArr = (ArrayList) trieNode[i].value;
-                      Term term  = (Term) newArr.get(0);
-                      this.bagOfTerm.add(term.key);
-                }
-                DFSProcess(trieNode[i].children);
-            }
-        }
-        return this.bagOfTerm;
     }
 }

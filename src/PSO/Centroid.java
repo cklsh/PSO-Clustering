@@ -57,12 +57,14 @@ public class Centroid {
         for (int i = 0; i < this.bagOfTerm.size(); i++) {
             termsPosition[i] = calculateMeanOfEveryTerm(termsPosition, counterOfTermAppearanceInObj, i);
             counterOfTermAppearanceInObj = 1;
-            System.out.println("term       " + this.bagOfTerm.get(i) +"       " + termsPosition[i]);
+//            System.out.println("term       " + this.bagOfTerm.get(i) +"       " + termsPosition[i]);
         }
         return termsPosition;
     }
     
     public int calculateMeanOfEveryTerm(int[] termsPosition, int counterOfTermAppearanceInObj, int i){
+        long start = System.nanoTime();
+
         String term = this.bagOfTerm.get(i);
         ArrayList<Term> trieNode = (ArrayList<Term>) trie.get(term);
 
@@ -76,7 +78,8 @@ public class Centroid {
             }
             //Term[] terms = this.objCluster.get(j).getTerm();
         }
-
+        long end = System.nanoTime();
+//        System.out.println("calculate mean of every term: " + (end-start));
         return (termsPosition[i]/ counterOfTermAppearanceInObj);
     }
     
