@@ -6,6 +6,8 @@
 package preprocessing.trie;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import preprocessing.parser.Term;
 
 /**
@@ -19,10 +21,13 @@ public class Trie<U> {
         this.root = new TrieNode(null);
     }
     
-    public void putTerms(Term[] terms){
-        for (Term term : terms) {
-            put(term.key, term);
-        }
+    public void putTerms(HashMap<String, Term> terms){
+        for (Map.Entry<String, Term> entry : terms.entrySet()) {
+            put(entry.getKey(), entry.getValue());
+	}
+//        for (Term term : terms) {
+//            put(term.key, term);
+//        }
     }
 
     public void put(String termValue, Object obj){

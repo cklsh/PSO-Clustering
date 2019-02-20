@@ -81,10 +81,8 @@ public class Particle {
     
     //use cosine similarity
     public void cluster() {
-        long start = System.nanoTime();
-
-        HashMap idf = dfs.findIDF(trie.getRoot().children);
-        CosineSimilarity cs= new CosineSimilarity(idf);
+        HashMap mapIDF = dfs.mapIDF(trie.getRoot().children);
+        CosineSimilarity cs= new CosineSimilarity(mapIDF);
         double maxSimilarity = 0;
         double similarity;
         int bestCentroid = 0;
@@ -97,7 +95,6 @@ public class Particle {
                     maxSimilarity = similarity;
                     bestCentroid = j;
                 }
-                break;
             }
             centroids[bestCentroid].addObjectCluster(parseDoc[i], maxSimilarity);
             maxSimilarity = 0;
@@ -105,8 +102,6 @@ public class Particle {
         
        updatePBest();
        
-        long end = System.nanoTime();
-        System.out.println("do cluster (one particle): " + (end-start));
     }
   
     public double[][] getVelocity(){

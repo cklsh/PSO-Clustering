@@ -2,6 +2,7 @@ package preprocessing.parser;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,7 +17,7 @@ import java.util.HashMap;
 public class Parser {
     
     HashMap<String, Integer> map = new HashMap();
-    Term[] terms;
+//    Term[] terms;
     Document document;
     String pattern;
     
@@ -25,25 +26,30 @@ public class Parser {
         this.pattern = pattern;
     }
     
-    public Term[] parse(){
+    public HashMap<String, Term> parse(){
         String[] tokens = this.document.text.split(this.pattern);
         
         for(String w : tokens){
             Integer n = map.get(w.toLowerCase());
             n = (n == null) ? 1 : n+1;
-            map.put(w.toLowerCase(), n);
+            if(w.length() >1) map.put(w.toLowerCase(), n);
+
         }
         
-        terms = new Term[map.size()];
-        String[] key = new String[map.size()];
-        Integer[] frec = new Integer[map.size()];
-        map.keySet().toArray(key);
-        map.values().toArray(frec);
+        HashMap<String, Term> terms= new HashMap();
+//        terms = new Term[map.size()];
+//        String[] key = new String[map.size()];
+//        Integer[] frec = new Integer[map.size()];
+//        map.keySet().toArray(key);
+//        map.values().toArray(frec);
         
-        ///edit disini?
-        for (int i = 0; i < terms.length; i++) {
-            terms[i] = new Term(key[i], frec[i], this.document.docId);
-        }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            Term term = new Term(entry.getKey(), entry.getValue(), this.document.docId);
+            terms.put(entry.getKey(), term);
+	}
+//        for (int i = 0; i < terms.length; i++) {
+//            terms[i] = new Term(key[i], frec[i], this.document.docId);
+//        }
         return terms;
     }
     

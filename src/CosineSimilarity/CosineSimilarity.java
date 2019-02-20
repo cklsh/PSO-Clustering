@@ -6,6 +6,7 @@
 package CosineSimilarity;
 
 import java.util.HashMap;
+import java.util.Map;
 import preprocessing.parser.ParseDocument;
 import preprocessing.parser.Term;
 
@@ -35,26 +36,20 @@ public class CosineSimilarity {
     }
     
     public double calculate(ParseDocument d1, ParseDocument d2){
-        return (dotProduct(d1, d2)/ jarak(d1, d2));
+        return (dotProduct(d1.getTerm(), d2.getTerm())/ jarak(d1, d2));
     }
     
-    public double dotProduct(ParseDocument d1, ParseDocument d2){
-        Term[] terms1 = d1.getTerm();
-        Term[] terms2 = d2.getTerm();
+    public double dotProduct(HashMap<String, Term> terms1, HashMap<String, Term> terms2){
         double result = 0;
-        for (int i = 0; i < terms1.length; i++) {
-            for (int j = 0; j < terms2.length; j++) {
+        for (Map.Entry<String, Term> entry : terms1.entrySet()) {
+            if(terms2.containsKey(entry.getKey())){
+                double IDF = (double) this.idf.get(entry.getKey());
+                double TFIDF1 = TFIDF(entry.getValue().frec, IDF);
+                double TFIDF2 = TFIDF(terms2.get(entry.getKey()).frec, IDF);
                 
-                System.out.println("1 iteration... " + terms1[i].key + "    " + terms2[j].key );
-                Term term1 = terms1[i];
-                
-                if((terms1[i].key.equals(terms2[j].key)) && (terms1[i].key.length() >0)){
-
-                    double IDF = (double) this.idf.get(terms1[i].key);
-                    result+= Math.pow((TFIDF(terms1[i].frec, IDF) * TFIDF(terms2[j].frec, IDF)),2);
-                }
+                result+= Math.pow((TFIDF1 * TFIDF2), 2);
             }
-        }
+	}
         return Math.sqrt(result);
     }
     
@@ -63,9 +58,3 @@ public class CosineSimilarity {
     }
     
 }
-
-//merge sort dilakukan agar jika nilai 
-//
-//bikin cosine similarity jadi pakai merge sort
-//kesulitannya di, sebelum dapat melakukan merge sort, harus dipikirin gimana caranya biar data terurut.
-//begitu.

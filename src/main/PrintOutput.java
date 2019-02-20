@@ -34,7 +34,7 @@ public class PrintOutput {
             
             Particle aParticle = particles.get(i);
             Centroid centroid[] = aParticle.getCentroid();
-            result+=("particle " + i + "\n");
+            result+=("particle " + i + "\n" + "=======================" + "\n");
 
             for (int j = 0; j < input.getJumlahCentroid(); j++) {
                 result+=("cluster" + "\n");

@@ -37,19 +37,18 @@ public class Tester {
         for (int i = 0; i < docs.length; i++) {
             Parser parser = new Parser(docs[i], PATTERN);
             parseDoc[i] = new ParseDocument(docs[i].fileName, parser.parse());
-            Term[] terms = parseDoc[i].getTerm();
+            HashMap<String, Term> terms = parseDoc[i].getTerm();
             
             trie.putTerms(terms);
         }
         
         ArrayList bagOfTerm = getBagOfTerm(trie);
-
-//??
-//        trie.putTerms(parseDoc[0].getTerm());
-//        System.out.println("test" + parseDoc[0].getTerm()[0].key);
         
+        long start = System.nanoTime();
         Swarm swarm = new Swarm(input, parseDoc, trie, bagOfTerm); 
+        long end = System.nanoTime();
         
+        System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
         PrintOutput print = new PrintOutput();
         String solutions = print.PRINTResult(input, swarm.getParticles(), swarm.getGBest());
         return solutions;

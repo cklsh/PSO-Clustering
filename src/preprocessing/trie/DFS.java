@@ -21,7 +21,7 @@ import preprocessing.trie.TrieNode;
 public class DFS {
     
     int jumlahDoc;
-    HashMap<String, Double> idx;
+    HashMap<String, Double> idf;
     ArrayList<String> bagOfTerm;
     public DFS(){
         this.bagOfTerm = new ArrayList<String>();
@@ -29,16 +29,16 @@ public class DFS {
     }
     public DFS(int jumlahDoc){
         this.jumlahDoc = jumlahDoc;
-        this.idx = new HashMap<String, Double>();
+        this.idf = new HashMap<String, Double>();
     }
     
     public ArrayList<String> DFSProcess(TrieNode[] trieNode){
         for (int i = 0; i < 26; i++) {
             if(trieNode[i] !=null) {
                 if(trieNode[i].value != null){
-                      ArrayList newArr = (ArrayList) trieNode[i].value;
-                      Term term  = (Term) newArr.get(0);
-                      this.bagOfTerm.add(term.key);
+                    ArrayList newArr = (ArrayList) trieNode[i].value;
+                    Term term  = (Term) newArr.get(0);
+                    this.bagOfTerm.add(term.key);
                 }
                 DFSProcess(trieNode[i].children);
             }
@@ -46,19 +46,19 @@ public class DFS {
         return this.bagOfTerm;
     }
     
-    public HashMap findIDF(TrieNode[] trieNode){
+    public HashMap<String, Double> mapIDF(TrieNode[] trieNode){
         for (int i = 0; i < 26; i++) {
             if(trieNode[i] !=null) {
                 if(trieNode[i].value != null){
-                      ArrayList newArr = (ArrayList) trieNode[i].value;
-                      Term term  = (Term) newArr.get(0);
-                      CosineSimilarity cs = new CosineSimilarity();
-                      double countIDX = cs.IDF(jumlahDoc, newArr.size());
-                      this.idx.put(term.key, countIDX);
+                    ArrayList newArr = (ArrayList) trieNode[i].value;
+                    Term term  = (Term) newArr.get(0);
+                    CosineSimilarity cs = new CosineSimilarity();
+                    double countIDF = cs.IDF(jumlahDoc, newArr.size());
+                    this.idf.put(term.key, countIDF);
                 }
-                findIDF(trieNode[i].children);
+                mapIDF(trieNode[i].children);
             }
         }
-        return idx;
+        return idf;
     }
 }
