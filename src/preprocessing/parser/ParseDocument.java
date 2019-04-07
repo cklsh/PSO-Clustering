@@ -43,9 +43,6 @@ public class ParseDocument {
         for(Map.Entry<String, Term> entry : terms.entrySet()) {
             result+= Math.pow(entry.getValue().frec, 2);
 	}
-//        for (int i = 0; i < term.length; i++) {
-//            result+= Math.pow(term[i].frec ,2);
-//        }
         return Math.sqrt(result);
     }
 }

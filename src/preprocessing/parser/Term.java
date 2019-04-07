@@ -17,8 +17,7 @@ public class Term {
     public String key; //kata yang disimpan
     public int frec; //Jumlah kata pada dokumen
     public String docId; //idDokumen
-    CosineSimilarity cs = new CosineSimilarity();
-    
+ 
     public Term(String key, int frec, String docId){
         this.key = key;
         this.docId = docId;

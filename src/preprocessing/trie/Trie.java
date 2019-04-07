@@ -25,9 +25,6 @@ public class Trie<U> {
         for (Map.Entry<String, Term> entry : terms.entrySet()) {
             put(entry.getKey(), entry.getValue());
 	}
-//        for (Term term : terms) {
-//            put(term.key, term);
-//        }
     }
 
     public void put(String termValue, Object obj){

@@ -92,12 +92,10 @@ public class Swarm {
     }
     
     private void calculate() {
-        long start = System.nanoTime();
         Particle aParticle = null;
         double pBest = 0;
         for (int j = 0; j < this.input.getJumlahParticle(); j++) {
            aParticle = this.particles.get(j);
-          // aParticle.findNewCentroid(centroid);
            pBest = aParticle.getPBest();
            if(pBest > this.gBest){
                this.gBest = pBest;
@@ -105,50 +103,47 @@ public class Swarm {
            }
         }
         updateParticles();
-        long end = System.nanoTime();
-//        System.out.println("swarm calculate: " + (end-start));
     }
 
     private void updateParticles() {
-        long start = System.nanoTime();
         for (int i = 0; i < this.input.getJumlahParticle(); i++) {
             long start2 = System.nanoTime();
             Particle aParticle = this.particles.get(i);
             double[][] currVelocity = aParticle.getVelocity();
             int[][] newPosition = new int[this.input.getJumlahCentroid()][this.bagOfTerm.size()]; 
             Centroid[] newCentroid  = new Centroid[this.input.getJumlahCentroid()];
+      
+            int[] GBest, PBest, currPosition;
             
             for (int j = 0; j < this.input.getJumlahCentroid(); j++) {
-                newPosition = initializePosition(aParticle, currVelocity, newPosition, j);
+                GBest = this.gBestPosition[j].getMeanOfEveryTermInEveryObj();
+                PBest = aParticle.getPBestPosition()[j].getMeanOfEveryTermInEveryObj();
+                currPosition = aParticle.getCentroid()[j].getMeanOfEveryTermInEveryObj();
+                for (int k = 0; k < this.bagOfTerm.size(); k++) {
+                    newPosition[j][k] = initializePosition(aParticle, currVelocity[j][k], currPosition[k], GBest[k], PBest[k]);
+                }
+//                newPosition = initializePosition(aParticle, currVelocity, newPosition, j);
                 newCentroid[j] = centroidFactory(newPosition, i, j);
             }
             aParticle.setVelocity(currVelocity);
             aParticle.updateCentroid(newCentroid);
-            long end2 = System.nanoTime();
         }
-        long end = System.nanoTime();
     }
     
-    private int[][] calculateNewPosition(double[][] currVelocity, int[] currPosition, int[][] newPosition, int[] GBest, int[] PBest, int j, int k){
-        currVelocity[j][k] = currVelocity[j][k] + (this.input.getR1() * (GBest[k] - currPosition[k])) + (this.input.getR2() * (PBest[k] - currPosition[k])) ;
-        if(currVelocity[j][k] < 0){
-            currVelocity[j][k] = 0;
+    private int calculateNewPosition(double currVelocity, int currPosition, int GBest, int PBest){
+        currVelocity = currVelocity + (this.input.getR1() * (GBest - currPosition)) + (this.input.getR2() * (PBest - currPosition)) ;
+        if(currVelocity < 0){
+            currVelocity = 0;
         }
-        else if(currVelocity[j][k] > this.input.getMaxVelocity()){
-            currVelocity[j][k] = this.input.getMaxVelocity();
+        else if(currVelocity > this.input.getMaxVelocity()){
+            currVelocity = this.input.getMaxVelocity();
         }
-        newPosition[j][k] = (int) currVelocity[j][k] + currPosition[k];
+        int newPosition = (int) currVelocity + currPosition;
         return newPosition;
     }
     
-    private int[][] initializePosition(Particle aParticle, double[][] currVelocity, int[][] newPosition, int j){
-        int[] GBest = this.gBestPosition[j].getMeanOfEveryTermInEveryObj();
-        int[] PBest = aParticle.getPBestPosition()[j].getMeanOfEveryTermInEveryObj();
-        int[] currPosition = aParticle.getCentroid()[j].getMeanOfEveryTermInEveryObj();
-        
-        for (int k = 0; k < this.bagOfTerm.size(); k++) {
-            newPosition = calculateNewPosition(currVelocity, currPosition, newPosition, GBest, PBest, j, k);
-        }
+    private int initializePosition(Particle aParticle, double currVelocity, int currPosition, int GBest, int PBest){
+        int newPosition = calculateNewPosition(currVelocity, currPosition, GBest, PBest);
         return newPosition;
     }
     
