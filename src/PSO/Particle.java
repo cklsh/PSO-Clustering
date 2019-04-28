@@ -74,9 +74,10 @@ public class Particle {
         if(fitness > 0){
             setPBest(this.centroids, fitness);
         }else{
-            setPBest(this.centroids, 0.0001);
-
+            System.out.println("masuk sini");
+            setPBest(this.centroids, 0.1);
         }
+        System.out.println("pBest  :" + this.pBest);
     }
     
     //use cosine similarity
@@ -137,9 +138,13 @@ public class Particle {
     }
     
     public double calculateFitness(Centroid[] centroid){
+        System.out.println("================ITERASI====================");
         double fitness = 0.00001;
         for (int i = 0; i < this.jumlahCentroid; i++) {
+
             fitness += centroids[i].getMean();
+            System.out.println("fitness di partikel: " + fitness);
+
         }
         return fitness;
     }

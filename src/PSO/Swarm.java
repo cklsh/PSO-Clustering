@@ -53,7 +53,7 @@ public class Swarm {
    private void doIteration(){
         for (int i = 0; i < input.getIterasi(); i++) {
            calculate();
-           if(currentGBestIsGreaterThanDataInputFitness(i)) break;
+           if(currentGBestIsGreaterThanDataInputFitness()) break;
         }
    }
 
@@ -72,7 +72,6 @@ public class Swarm {
             newParticle.calculateFitness(centroid);
             
             compareNewParticleFitnessWithGBest(newParticle.calculateFitness(centroid), i);
-            
         }
     }
     
@@ -122,7 +121,7 @@ public class Swarm {
                 for (int k = 0; k < this.bagOfTerm.size(); k++) {
                     newPosition[j][k] = initializePosition(aParticle, currVelocity[j][k], currPosition[k], GBest[k], PBest[k]);
                 }
-//                newPosition = initializePosition(aParticle, currVelocity, newPosition, j);
+//              newPosition = initializePosition(aParticle, currVelocity, newPosition, j);
                 newCentroid[j] = centroidFactory(newPosition, i, j);
             }
             aParticle.setVelocity(currVelocity);
@@ -159,7 +158,7 @@ public class Swarm {
         return newCentroid;
     }
     
-    private boolean currentGBestIsGreaterThanDataInputFitness(int i){
+    private boolean currentGBestIsGreaterThanDataInputFitness(){
         if(this.gBest > input.getFitness()){
             return true;
         }

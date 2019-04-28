@@ -47,8 +47,8 @@ public class Centroid {
     }
    
     public double getMean(){
-        if(this.objCluster.size() == 0) handleMeanCalculationWhenThereIsNoObjectInCluster();
-        return (this.mean/this.objCluster.size());
+        if(this.objCluster.size() == 0) return handleMeanCalculationWhenThereIsNoObjectInCluster();
+        return (this.mean/(this.objCluster.size() + 1));
     }
     
     public double handleMeanCalculationWhenThereIsNoObjectInCluster(){
@@ -57,16 +57,16 @@ public class Centroid {
     
     public int[] getMeanOfEveryTermInEveryObj(){
         int counterOfTermAppearanceInObj =1;
-        int[] termsPosition = initializeTermPosition();
+        int[] termsPositions = initializeTermPosition();
         
         for (int i = 0; i < this.bagOfTerm.size(); i++) {
-            termsPosition[i] = calculateMeanOfEveryTerm(termsPosition, counterOfTermAppearanceInObj, i);
+            termsPositions[i] = calculateMeanOfEveryTerm(termsPositions[i], counterOfTermAppearanceInObj, i);
             counterOfTermAppearanceInObj = 1;
         }
-        return termsPosition;
+        return termsPositions;
     }
     
-    public int calculateMeanOfEveryTerm(int[] termsPosition, int counterOfTermAppearanceInObj, int i){
+    public int calculateMeanOfEveryTerm(int termsPosition, int counterOfTermAppearanceInObj, int i){
 
         String term = this.bagOfTerm.get(i);
         ArrayList<Term> trieNode = (ArrayList<Term>) trie.get(term);
@@ -76,11 +76,11 @@ public class Centroid {
             for (int k = 0; k < trieNode.size(); k++) {
                 if(trieNode.get(k).docId.equals(pd.getFileName())){
                     counterOfTermAppearanceInObj++;
-                    termsPosition[i] += trieNode.get(k).frec;
+                    termsPosition += trieNode.get(k).frec;
                 }
             }
         }
-        return (termsPosition[i]/ counterOfTermAppearanceInObj);
+        return (termsPosition/ counterOfTermAppearanceInObj);
     }
     
     private int[] initializeTermPosition(){

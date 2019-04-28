@@ -49,8 +49,13 @@ public class Tester {
         long end = System.nanoTime();
         
         System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
+        
+        
         PrintOutput print = new PrintOutput();
         String solutions = print.PRINTResult(input, swarm.getParticles(), swarm.getGBest());
+        
+        Pengujian pengujian = new Pengujian(input, swarm.getParticles(), swarm.getGBest());
+//        String hasilPengujian = pengujian.hasil();
         return solutions;
     }
     
