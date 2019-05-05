@@ -25,7 +25,6 @@ public class Swarm {
     
     private double gBest;
     private Centroid[] gBestPosition;
-    private Random rand;
 
     private ArrayList<Particle> particles;
     private ArrayList<Particle> solutions;
@@ -106,7 +105,6 @@ public class Swarm {
 
     private void updateParticles() {
         for (int i = 0; i < this.input.getJumlahParticle(); i++) {
-            long start2 = System.nanoTime();
             Particle aParticle = this.particles.get(i);
             double[][] currVelocity = aParticle.getVelocity();
             int[][] newPosition = new int[this.input.getJumlahCentroid()][this.bagOfTerm.size()]; 
@@ -171,6 +169,10 @@ public class Swarm {
     
     public double getGBest(){
         return this.gBest;
+    }
+    
+    public Centroid[] getGBestPosition(){
+        return this.gBestPosition;
     }
     
 }

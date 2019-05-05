@@ -23,8 +23,8 @@ public class CosineSimilarity {
         this.idf= idf;
     }
           
-    public double TFIDF(int frec, double IDX){
-        return (TF(frec)*IDX);
+    public double TFIDF(int frec, double IDF){
+        return (TF(frec)*IDF);
     }
     
     public double TF(int jumlahTerm){

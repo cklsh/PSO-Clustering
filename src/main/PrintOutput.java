@@ -5,6 +5,7 @@
  */
 package main;
 
+import Kmeans.Cluster;
 import PSO.Centroid;
 import PSO.Particle;
 import java.util.ArrayList;
@@ -28,8 +29,24 @@ public class PrintOutput {
         System.out.println("new position            " + newPosition[j][k]);
     }
     
-    public String PRINTResult(DataInput input, ArrayList<Particle> particles, double gBest){
+    public String PRINTPSOResult(DataInput input, ArrayList<Particle> particles, double gBest, Centroid[] gBestPosition){
         String result="";
+        result+= "Best Particle \n\n";
+        for (int i = 0; i < gBestPosition.length; i++) {
+            result+= "Cluster " + "\n\n";
+            
+            ArrayList<ParseDocument> objCluster = gBestPosition[i].getObjCluster();
+            for (int j = 0; j < objCluster.size(); j++) {
+                result+= objCluster.get(j).getFileName() + "\n";
+            }
+        }
+        
+        result+= "==============================" + "\n";
+        
+        
+           
+        
+        
         for (int i = 0; i < input.getJumlahParticle(); i++) {
             
             Particle aParticle = particles.get(i);
@@ -83,5 +100,21 @@ public class PrintOutput {
             return result;
         }
     }
+    
+
+    public String PRINTKmeansResult(DataInput input, Cluster[] clusters){
+        String result = "";
+        for (int i = 0; i < clusters.length; i++) {
+            ArrayList<ParseDocument> apd = clusters[i].getObjCluster();
+            result+=("Cluster" + "\n");
+            for (int j = 0; j < apd.size(); j++) {
+               ParseDocument pd = apd.get(j);
+               result+=(pd.getFileName() + "\n");
+            }
+            result+=("=========" +"\n");
+        }
+        return result;
+    }
+       
        
 }

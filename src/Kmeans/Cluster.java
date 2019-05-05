@@ -3,55 +3,53 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package PSO;
+package Kmeans;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import preprocessing.parser.ParseDocument;
 import preprocessing.parser.Term;
 import preprocessing.trie.Trie;
-import preprocessing.trie.TrieNode;
 
 /**
  *
  * @author caca
  */
-public class Centroid {
+public class Cluster {
     private ArrayList<ParseDocument> objCluster;
-    private ParseDocument position;
+    private ParseDocument centroid;
     private double mean;
     private ArrayList<String> bagOfTerm;
     private Trie trie;
-    double[][] currVelocity;
     
-    Centroid(ParseDocument position, Trie trie, ArrayList<String> bagOfTerm){
-        this.position = position;
+    Cluster(Trie trie, ArrayList<String> bagOfTerm){
         this.objCluster = new ArrayList<ParseDocument>();
+        this.mean = mean;
+        this.centroid = centroid;
+        
         this.trie = trie;
-        this.mean = 0;
         this.bagOfTerm = bagOfTerm;
     }
-
+    
+    public void setCentroid(ParseDocument centroid){
+        this.mean = 0;
+        this.centroid = centroid;
+    }
+    
+    public ParseDocument getCentroidPosition(){
+        return this.centroid;
+    }
+    
     public void addObjectCluster(ParseDocument newObj, double similarity){
         this.mean += similarity;
         this.objCluster.add(newObj);
     }
-    
+     
     public ArrayList<ParseDocument> getObjCluster(){
-        return objCluster;
+        return this.objCluster;
     }
     
-    public ParseDocument getPosition(){
-        return position;
-    }
-   
-    public double getMean(){
-        if(this.objCluster.size() == 0) return handleMeanCalculationWhenThereIsNoObjectInCluster();
-        return (this.mean/(this.objCluster.size() + 1));
-    }
-    
-    public double handleMeanCalculationWhenThereIsNoObjectInCluster(){
-        return this.mean/1;
+    public void removeObjCluster(ParseDocument obj){
+        objCluster.remove(obj);
     }
     
     public int[] getMeanOfEveryTermInEveryObj(){
@@ -89,4 +87,5 @@ public class Centroid {
         }
         return termsPosition;
     }
+    
 }

@@ -5,6 +5,8 @@
  */
 package main;
 
+import Kmeans.Cluster;
+import Kmeans.Kmeans;
 import PSO.Swarm;
 import java.io.File;
 import java.io.IOException;
@@ -28,35 +30,68 @@ public class Tester {
     public static final String PATTERN  = "[\\P{Alpha}+]";
 
     public String main(DataInput input) throws IOException {
-    
-        Document[] docs = Document.processDocument(input.getPath());
-        
-        ParseDocument[] parseDoc = new ParseDocument[docs.length];
-        Trie trie = new Trie<ArrayList<Term>>();
+        if(input.algorithmName == "PSO"){
+            Document[] docs = Document.processDocument(input.getPath());
 
-        for (int i = 0; i < docs.length; i++) {
-            Parser parser = new Parser(docs[i], PATTERN);
-            parseDoc[i] = new ParseDocument(docs[i].fileName, parser.parse());
-            HashMap<String, Term> terms = parseDoc[i].getTerm();
-            
-            trie.putTerms(terms);
+            ParseDocument[] parseDoc = new ParseDocument[docs.length];
+            Trie trie = new Trie<ArrayList<Term>>();
+
+            for (int i = 0; i < docs.length; i++) {
+                Parser parser = new Parser(docs[i], PATTERN);
+                parseDoc[i] = new ParseDocument(docs[i].fileName, parser.parse());
+                HashMap<String, Term> terms = parseDoc[i].getTerm();
+
+                trie.putTerms(terms);
+            }
+
+            ArrayList bagOfTerm = getBagOfTerm(trie);
+
+            long start = System.nanoTime();
+            Swarm swarm = new Swarm(input, parseDoc, trie, bagOfTerm); 
+            long end = System.nanoTime();
+
+            System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
+
+            Pengujian pengujian = new Pengujian();
+            pengujian.hasilPSO(input, swarm.getParticles(), swarm.getGBest());
+
+            PrintOutput print = new PrintOutput();
+            String solutions = print.PRINTPSOResult(input, swarm.getParticles(), swarm.getGBest(), swarm.getGBestPosition());
+
+            return solutions;
         }
-        
-        ArrayList bagOfTerm = getBagOfTerm(trie);
-        
-        long start = System.nanoTime();
-        Swarm swarm = new Swarm(input, parseDoc, trie, bagOfTerm); 
-        long end = System.nanoTime();
-        
-        System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
-        
-        
-        PrintOutput print = new PrintOutput();
-        String solutions = print.PRINTResult(input, swarm.getParticles(), swarm.getGBest());
-        
-        Pengujian pengujian = new Pengujian(input, swarm.getParticles(), swarm.getGBest());
-//        String hasilPengujian = pengujian.hasil();
-        return solutions;
+        else{
+            Document[] docs = Document.processDocument(input.getPath());
+
+            ParseDocument[] parseDoc = new ParseDocument[docs.length];
+            Trie trie = new Trie<ArrayList<Term>>();
+
+            for (int i = 0; i < docs.length; i++) {
+                Parser parser = new Parser(docs[i], PATTERN);
+                parseDoc[i] = new ParseDocument(docs[i].fileName, parser.parse());
+                HashMap<String, Term> terms = parseDoc[i].getTerm();
+
+                trie.putTerms(terms);
+            }
+
+            ArrayList bagOfTerm = getBagOfTerm(trie);
+
+            long start = System.nanoTime();
+            Kmeans kmeans = new Kmeans(input, parseDoc, trie, bagOfTerm);
+            Cluster[] clusters = new Cluster[input.jumlahCentroid];
+            clusters = kmeans.doIteration();
+            long end = System.nanoTime();
+
+            System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
+            
+            Pengujian pengujian = new Pengujian();
+            pengujian.hasilKmeans(input, clusters);
+            
+            PrintOutput print = new PrintOutput();
+            String solutions = print.PRINTKmeansResult(input, clusters);
+
+            return solutions;
+        }
     }
     
     private ArrayList getBagOfTerm(Trie trie){
