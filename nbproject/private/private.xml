@@ -4,8 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/PSO/Centroid.java</file>
+            <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/preprocessing/parser/Document.java</file>
             <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/PSO/Particle.java</file>
+            <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/CosineSimilarity/CosineSimilarity.java</file>
+            <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/preprocessing/parser/Parser.java</file>
             <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/PSO/Swarm.java</file>
+            <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/preprocessing/parser/Term.java</file>
+            <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/preprocessing/parser/ParseDocument.java</file>
             <file>file:/home/caca/Documents/SKRIPSI/PSO%20Clustering/src/main/Pengujian.java</file>
         </group>
     </open-files>

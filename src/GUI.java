@@ -322,19 +322,17 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_text_centroidActionPerformed
 
     private void start_PSO_KmeansActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_start_PSO_KmeansActionPerformed
-        if(text_centroid.getText().isEmpty()||text_particle.getText().isEmpty()||text_velocity.getText().isEmpty()||text_fitness.getText().isEmpty()||text_iterasi.getText().isEmpty()||text_r1.getText().isEmpty()||text_r2.getText().isEmpty()||this.isOpened == 0){
+        if(text_centroid.getText().isEmpty()||text_iterasi.getText().isEmpty()||this.isOpened == 0){
             label_notification.setText("Please complete the data first");
         }
         else{
             DataInput input = new DataInput();
             input.setPath(fileChooser.getCurrentDirectory().toString());
-            input.setJumlahParticle(Integer.parseInt(text_particle.getText()));
+
             input.setJumlahCentroid(Integer.parseInt(text_centroid.getText()));
-            input.setVelocity(Double.parseDouble(text_velocity.getText()));
-            input.setFitness(Double.parseDouble(text_fitness.getText()));
+
             input.setIterasi(Integer.parseInt(text_iterasi.getText()));
-            input.setR1(Double.parseDouble(text_r1.getText()));
-            input.setR2(Double.parseDouble(text_r2.getText()));
+
             input.setAlgorithm("KMEANS");
 
             label_notification.setText("Please Wait");

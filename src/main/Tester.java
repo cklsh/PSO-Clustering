@@ -46,11 +46,11 @@ public class Tester {
 
             ArrayList bagOfTerm = getBagOfTerm(trie);
 
-            long start = System.nanoTime();
+            float start = System.nanoTime();
             Swarm swarm = new Swarm(input, parseDoc, trie, bagOfTerm); 
-            long end = System.nanoTime();
+            float end = System.nanoTime();
 
-            System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
+            System.out.println("Total time: " + ((end-start)) + " second");
 
             Pengujian pengujian = new Pengujian();
             pengujian.hasilPSO(input, swarm.getParticles(), swarm.getGBest());
@@ -76,11 +76,11 @@ public class Tester {
 
             ArrayList bagOfTerm = getBagOfTerm(trie);
 
-            long start = System.nanoTime();
+            float start = System.nanoTime();
             Kmeans kmeans = new Kmeans(input, parseDoc, trie, bagOfTerm);
             Cluster[] clusters = new Cluster[input.jumlahCentroid];
             clusters = kmeans.doIteration();
-            long end = System.nanoTime();
+            float end = System.nanoTime();
 
             System.out.println("Total time: " + ((end-start) / 1000000000) + " second");
             
