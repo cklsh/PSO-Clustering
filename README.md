@@ -1,1 +1,1 @@
-Text Clustering project that implement pre-processiong text based document. Implement Swarm Optimization algorithm in the clustering process and K-means as comparison.
+Text Clustering project that implements text pre-processing on document-based data. It uses the Particle Swarm Optimization algorithm in the clustering process, with K-means as a comparison.
